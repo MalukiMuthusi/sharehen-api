@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -29,6 +30,9 @@ func main() {
 	}
 
 	go func() {
+		_, addr := fmt.Printf("Serving at localhost%s\n", srv.Addr)
+		log.Println(addr)
+
 		if err := srv.ListenAndServe(); err != nil {
 			log.Println(err)
 		}
@@ -47,7 +51,6 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), wait)
 	defer cancel()
 
-	defer cancel()
 	// Doesn't block if no connections, but will otherwise wait
 	// until the timeout deadline.
 	srv.Shutdown(ctx)
